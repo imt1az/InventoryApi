@@ -7,8 +7,14 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+
+    public function hello(){
+        return response()->json(['message' => 'Hello, World!']);
+    }
     public function register(Request $request)
     {
+
+        
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users',
@@ -30,11 +36,13 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        
         $request->validate([
             'identifier' => 'required', // email or phone
             'password' => 'required',
         ]);
 
+        
         $user = User::where('email', $request->identifier)
                     ->orWhere('phone', $request->identifier)
                     ->first();
@@ -44,6 +52,7 @@ class AuthController extends Controller
         }
 
         Auth::login($user);
+        
         $request->session()->regenerate();
 
         return response()->json(['message' => 'Logged in', 'role' => $user->role]);
