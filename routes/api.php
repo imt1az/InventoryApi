@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
@@ -15,3 +16,4 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::middleware('auth:sanctum')->get('/me', function (Request $request) {
     return response()->json($request->user() ?: null);
 });
+Route::middleware('auth:sanctum')->apiResource('products', ProductController::class);
