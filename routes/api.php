@@ -13,7 +13,11 @@ Route::post('/logout', [AuthController::class, 'logout']);
 // Protected Route (must be logged in)
 // Route::middleware(['stateful', 'bindings', 'auth:sanctum'])->get('/me', [AuthController::class, 'me']);
 
-Route::middleware('auth:sanctum')->get('/me', function (Request $request) {
-    return response()->json($request->user() ?: null);
+// Protected Routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/me', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::apiResource('products', ProductController::class);
 });
-Route::middleware('auth:sanctum')->apiResource('products', ProductController::class);
